@@ -1,0 +1,3 @@
+#!/bun/bash
+
+./Build/executable
