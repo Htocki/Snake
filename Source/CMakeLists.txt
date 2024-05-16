@@ -24,6 +24,7 @@ target_link_libraries("executable"
     game
 )
 
+add_subdirectory(Field)
 add_subdirectory(Game)
 add_subdirectory(Snake)
 add_subdirectory(Textbox)
