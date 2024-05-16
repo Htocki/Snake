@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include "Field.hpp"
 #include "Snake.hpp"
 
 class World {
@@ -15,6 +16,7 @@ public:
   int GetBlockSize();
 
   void RespawnApple();
+  
   void Update(Snake& player);
   void Render(sf::RenderWindow& window);
 
@@ -23,5 +25,5 @@ private:
         sf::Vector2i m_item;
                  int m_blockSize;
      sf::CircleShape m_apple;
-  sf::RectangleShape m_bounds[4];
+               Field m_field;
 };

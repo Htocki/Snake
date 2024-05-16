@@ -9,7 +9,8 @@ target_include_directories("world"
 )
 
 target_link_libraries("world"
-  PRIVATE
+  PUBLIC
     sfml-graphics
+    field
     snake
 )

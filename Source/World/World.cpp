@@ -5,28 +5,12 @@
 World::World(sf::Vector2u windowSize) 
   : m_blockSize { 16 }
   , m_windowSize { windowSize }
+  , m_field { windowSize, m_blockSize}
 {
   // Apple
   RespawnApple();
   m_apple.setFillColor(sf::Color::Red);
   m_apple.setRadius(8.f);
-
-  // Bounds
-  for (int i = 0; i < 4; ++i) {
-    m_bounds[i].setFillColor(sf::Color(sf::Color::Green));
-    if (!((i + 1) % 2)) {
-      m_bounds[i].setSize(sf::Vector2f(m_windowSize.x, m_blockSize));
-    } else {
-      m_bounds[i].setSize(sf::Vector2f(m_blockSize, m_windowSize.y)); 
-    }
-
-    if (i < 2) {
-      m_bounds[i].setPosition(0, 0);
-    } else {
-      m_bounds[i].setOrigin(m_bounds[i].getSize());
-      m_bounds[i].setPosition(sf::Vector2f(m_windowSize));
-    }
-  }
 }
 
 World::~World() {}
@@ -52,21 +36,12 @@ void World::Update(Snake& snake) {
     RespawnApple();
   }
 
-  int gridSize_x = m_windowSize.x / m_blockSize;
-  int gridSize_y = m_windowSize.y / m_blockSize;
-
-  if (snake.GetPosition().x <= 0 ||
-      snake.GetPosition().y <= 0 ||
-      snake.GetPosition().x >= gridSize_x - 1 ||
-      snake.GetPosition().y >= gridSize_y - 1)
-  {
+  if (m_field.IsBorder(snake.GetPosition())) {
     snake.Lose();
   }
 }
 
 void World::Render(sf::RenderWindow& window) {
-  for (int i = 0; i < 4; ++i) {
-    window.draw(m_bounds[i]);
-  }
+  m_field.Render(window);
   window.draw(m_apple);
 }
