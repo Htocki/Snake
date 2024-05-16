@@ -21,9 +21,9 @@ public:
   void Render(sf::RenderWindow& window);
 
 private:
-        sf::Vector2u m_windowSize;
-        sf::Vector2i m_item;
-                 int m_blockSize;
-     sf::CircleShape m_apple;
-               Field m_field;
+     sf::Vector2u m_windowSize;
+     sf::Vector2i m_item;
+              int m_blockSize;
+  sf::CircleShape m_apple;
+            Field m_field;
 };

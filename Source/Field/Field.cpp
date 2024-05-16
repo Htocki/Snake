@@ -1,42 +1,54 @@
 #include "Field.hpp"
 
-Field::Field(sf::Vector2u windowSize, int blockSize) 
-  : m_windowSize { windowSize }
-  , m_blockSize { blockSize }
-{
-  // Bounds
-  for (int i = 0; i < 4; ++i) {
-    m_bounds[i].setFillColor(sf::Color(sf::Color::Green));
-    if (!((i + 1) % 2)) {
-      m_bounds[i].setSize(sf::Vector2f(m_windowSize.x, m_blockSize));
-    } else {
-      m_bounds[i].setSize(sf::Vector2f(m_blockSize, m_windowSize.y)); 
+Field::Field(sf::Vector2u windowSize, int blockSize) {
+  // Определение размера в сегментах.
+  sf::Vector2u size {
+    windowSize.x / blockSize,
+    windowSize.y / blockSize
+  };
+  
+  // Выделение памяти под сегменты.
+  m_segments.resize(size.x);
+  for (auto& column : m_segments) {
+    column.resize(size.y);
+  }
+  
+  // Определение базовых характеристик сегментов и их расположения.
+  for (int i { 0 }; i < m_segments.size(); ++i) {
+    for (int j { 0 }; j < m_segments[0].size(); ++j) {
+      m_segments[i][j].setPosition(blockSize * i, blockSize * j);
+      m_segments[i][j].setSize(sf::Vector2f { blockSize - 1.f, blockSize - 1.f });
+      m_segments[i][j].setFillColor(sf::Color::Transparent);
     }
-
-    if (i < 2) {
-      m_bounds[i].setPosition(0, 0);
-    } else {
-      m_bounds[i].setOrigin(m_bounds[i].getSize());
-      m_bounds[i].setPosition(sf::Vector2f(m_windowSize));
-    }
+  }
+  
+  // Изменение цвета сегментов отвечающих за горизонтальные границы.
+  for (int i { 0 }; i < m_segments.size(); ++i) {
+    m_segments[i][0].setFillColor(sf::Color::Green);
+    m_segments[i][size.y - 1].setFillColor(sf::Color::Green);
+  }
+  
+  // Изменение цвета сегментов отвечающих за вертикальные границы.
+  for (int j { 0 }; j < m_segments[0].size(); ++j) {
+    m_segments[0][j].setFillColor(sf::Color::Green);
+    m_segments[size.x - 1][j].setFillColor(sf::Color::Green);
   }
 }
 
 Field::~Field() {}
 
-bool Field::IsBorder(sf::Vector2i position) const {
-  sf::Vector2u gridSize {  // Размер сетки в ячейках.
-    m_windowSize.x / m_blockSize,
-    m_windowSize.y / m_blockSize
-  };
-  return position.x <= 0 ||
-      position.y <= 0 ||
-      position.x >= gridSize.x - 1 ||
-      position.y >= gridSize.y - 1;
+bool Field::IsBorder(sf::Vector2i gridPosition) const {
+  if (m_segments[gridPosition.x][gridPosition.y].getFillColor() == sf::Color::Green) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-void Field::Render(sf::RenderWindow& window) {
-  for (int i = 0; i < 4; ++i) {
-    window.draw(m_bounds[i]);
+void Field::Render(sf::RenderWindow& window) const {
+  for (auto column : m_segments) {
+    for (auto segment : column) {
+      window.draw(segment);
+    }
   }
 }

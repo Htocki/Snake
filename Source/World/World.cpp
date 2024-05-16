@@ -5,9 +5,8 @@
 World::World(sf::Vector2u windowSize) 
   : m_blockSize { 16 }
   , m_windowSize { windowSize }
-  , m_field { windowSize, m_blockSize}
+  , m_field { windowSize, m_blockSize }
 {
-  // Apple
   RespawnApple();
   m_apple.setFillColor(sf::Color::Red);
   m_apple.setRadius(8.f);
