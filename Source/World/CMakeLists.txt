@@ -11,6 +11,7 @@ target_include_directories("world"
 target_link_libraries("world"
   PUBLIC
     sfml-graphics
+    apple
     field
     snake
 )
