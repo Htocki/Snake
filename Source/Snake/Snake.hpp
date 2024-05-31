@@ -14,18 +14,16 @@ public:
   ~Snake();
 
   bool IsCollided() const;
-
   void HandleInput(Input input);
   void Update();
   void Render(sf::RenderWindow& window);
   void Reset();
-  
-  SnakeState* m_state;
 
 private:
   void CheckCollision();
   
-  bool m_isCollided;
+  SnakeState* m_state;
+  bool        m_isCollided;
 };
 
 class SnakeState {
