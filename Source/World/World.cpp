@@ -15,17 +15,7 @@ int World::GetBlockSize() {
   return m_blockSize;
 }
 
-void World::Update(Snake& snake) {
-  if (snake.GetPosition() == m_apple.GetPosition()) {
-    snake.Extend();
-    snake.IncreaseScore();
-    m_apple.Respawn();
-  }
-
-  if (m_field.IsBorder(snake.GetPosition())) {
-    snake.Lose();
-  }
-}
+void World::Update(Snake& snake) {}
 
 void World::Render(sf::RenderWindow& window) {
   m_field.Render(window);

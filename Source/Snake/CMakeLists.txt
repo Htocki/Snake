@@ -1,6 +1,8 @@
 add_library("snake"
   Snake.cpp
   Snake.hpp
+  #SnakeState.cpp
+  #SnakeState.hpp
 )
 
 target_include_directories("snake"
@@ -9,6 +11,7 @@ target_include_directories("snake"
 )
 
 target_link_libraries("snake"
-  PRIVATE
+  PUBLIC
     sfml-graphics
+    input
 )

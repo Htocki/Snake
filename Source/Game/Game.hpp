@@ -2,10 +2,11 @@
 
 #include <SFML/System/Clock.hpp>
 
-#include <Snake.hpp>
-#include <Textbox.hpp>
-#include <Window.hpp>
-#include <World.hpp>
+#include "Input.hpp"
+#include "Snake.hpp"
+#include "Textbox.hpp"
+#include "Window.hpp"
+#include "World.hpp"
 
 class Game {
 public:

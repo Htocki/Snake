@@ -1,179 +1,87 @@
 #include "Snake.hpp"
 
-Snake::Snake(int blockSize)
-  : m_size { blockSize }
-  , m_speed { 15 }
-  , m_lives { 3 }
-  , m_score { 0 }
-  , m_lost { false }
-{
-  m_bodyRect.setSize(sf::Vector2f { m_size - 1.f, m_size - 1.f });
-  m_snakeBody.clear();
-  m_snakeBody.push_back(SnakeSegment { 5, 7 });
-  m_snakeBody.push_back(SnakeSegment { 5, 6 });
-  m_snakeBody.push_back(SnakeSegment { 5, 5 });
-  SetDirection(Direction::None);
+Snake::Snake()
+  : m_state { new StandingState() }
+  , m_isCollided { false }
+{}
+
+Snake::~Snake() {
+  delete m_state;
 }
 
-Snake::~Snake() {}
+bool Snake::IsCollided() const { return m_isCollided; }
 
-void Snake::SetDirection(Direction direction) {
-  m_direction = direction;
-}
-
-Direction Snake::GetDirection() const {
-  return m_direction;
-}
-
-int Snake::GetSpeed() const {
-  return m_speed;
-}
-
-sf::Vector2i Snake::GetPosition() const {
-  return m_snakeBody.empty() ? sf::Vector2i { 1, 1 } : m_snakeBody.front().position;
-}
-
-int Snake::GetLives() const {
-  return m_lives;
-}
-
-int Snake::GetScore() const {
-  return m_score;
-}
-
-Direction Snake::GetPhysicalDirection() {
-  if (m_snakeBody.size() <= 1) {
-    return Direction::None;
-  }
-
-  SnakeSegment& head = m_snakeBody[0];
-  SnakeSegment& neck = m_snakeBody[1];
-
-  if (head.position.x == neck.position.x) {
-    return head.position.y > neck.position.y ? Direction::Down : Direction::Up;
-  } else if (head.position.y == neck.position.y) {
-    return head.position.x > neck.position.x ? Direction::Right : Direction::Left;
-  }
-  return Direction::None;
-}
-
-void Snake::IncreaseScore() {
-  m_score += 10;
-}
-
-bool Snake::HasLost() const {
-  return m_lost;
-}
-
-void Snake::Lose() {
-  m_lost = true;
-}
-
-void Snake::ToggleLost() {
-  m_lost = !m_lost;
-}
-
-void Snake::Extend() {
-  if (m_snakeBody.empty()) { return; }
-  SnakeSegment& tail_head = m_snakeBody[m_snakeBody.size() - 1];
-
-  if (m_snakeBody.size() > 1) {
-    SnakeSegment& tail_bone = m_snakeBody[m_snakeBody.size() - 2];
-    if (tail_head.position.x == tail_bone.position.x) {
-      if (tail_head.position.y > tail_bone.position.y) {
-        m_snakeBody.push_back(SnakeSegment(tail_head.position.x, tail_head.position.y + 1));
-      } else {
-        m_snakeBody.push_back(SnakeSegment(tail_head.position.x, tail_head.position.y - 1));
-      }
-    } else if (tail_head.position.y == tail_bone.position.y) {
-      if (tail_head.position.x > tail_bone.position.x) {
-        m_snakeBody.push_back(SnakeSegment(tail_head.position.x + 1, tail_head.position.y));
-      } else {
-        m_snakeBody.push_back(SnakeSegment(tail_head.position.x - 1, tail_head.position.y));
-      }
-    }
-  } else {
-    if (m_direction == Direction::Up) {
-      m_snakeBody.push_back(SnakeSegment(tail_head.position.x, tail_head.position.y + 1));
-    } else if (m_direction == Direction::Down) {
-      m_snakeBody.push_back(SnakeSegment(tail_head.position.x, tail_head.position.y - 1));
-    } else if (m_direction == Direction::Left) {
-      m_snakeBody.push_back(SnakeSegment(tail_head.position.x + 1, tail_head.position.y));
-    } else if (m_direction == Direction::Right) {
-      m_snakeBody.push_back(SnakeSegment(tail_head.position.x - 1, tail_head.position.y));
-    }
-  }
-}
-
-void Snake::Move() {
-  for (int i = m_snakeBody.size() - 1; i > 0; --i) {
-    m_snakeBody[i].position = m_snakeBody[i - 1].position;
-  }
-  if (m_direction == Direction::Left) {
-    --m_snakeBody[0].position.x;
-  } else if (m_direction == Direction::Right) {
-    ++m_snakeBody[0].position.x;
-  } else if (m_direction == Direction::Up) {
-    --m_snakeBody[0].position.y;
-  } else if (m_direction == Direction::Down) {
-    ++m_snakeBody[0].position.y;
-  }
+void Snake::HandleInput(Input input) {
+  SnakeState* state = m_state->HandleInput(*this, input);
+  delete m_state;
+  m_state = state;
 }
 
 void Snake::Update() {
-  if (m_snakeBody.empty()) { return; }
-  if (m_direction == Direction::None) { return; }
-  Move();
-  CheckCollision();
+  m_state->Update(*this);
 }
 
-void Snake::Cut(int segments) {
-  for (int i = 0; i < segments; ++i) {
-    m_snakeBody.pop_back();
-  }
-  --m_lives;
-  if (!m_lives) {
-    Lose();
-    return;
-  }
-}
+void Snake::Render(sf::RenderWindow& window) {}
+
+void Snake::CheckCollision() {}
 
 void Snake::Reset() {
-  m_speed = 15;
-  m_lives = 3;
-  m_score = 0;
-  m_lost = false;
-  m_bodyRect.setSize(sf::Vector2f { m_size - 1.f, m_size - 1.f });
-  m_snakeBody.clear();
-  m_snakeBody.push_back(SnakeSegment { 5, 7 });
-  m_snakeBody.push_back(SnakeSegment { 5, 6 });
-  m_snakeBody.push_back(SnakeSegment { 5, 5 });
-  SetDirection(Direction::None);
+  delete m_state;
+  m_state = new StandingState();
 }
 
-void Snake::Render(sf::RenderWindow& window) {
-  if (m_snakeBody.empty()) { return; }
+// Moving Down State
 
-  auto head = m_snakeBody.begin();
-  m_bodyRect.setFillColor(sf::Color::Yellow);
-  m_bodyRect.setPosition(head->position.x * m_size, head->position.y * m_size);
-  window.draw(m_bodyRect);
-
-  m_bodyRect.setFillColor(sf::Color::Green);
-  for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr) {
-    m_bodyRect.setPosition(itr->position.x * m_size, itr->position.y * m_size);
-    window.draw(m_bodyRect);
-  }
+SnakeState* MovingDownState::HandleInput(Snake& snake, Input input) {
+  if      (input == Input::KbLeft)  { return new MovingLeftState(); }
+  else if (input == Input::KbRight) { return new MovingRightState(); }
+  else if (snake.IsCollided())      { return new StandingState(); }
+  else                              { return new MovingDownState(); }
 }
 
-void Snake::CheckCollision() {
-  if (m_snakeBody.size() < 5) { return; }
-  SnakeSegment& head = m_snakeBody.front();
-  for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr) {
-    if (itr->position == head.position) {
-      int segments = m_snakeBody.end() - itr;
-      Cut(segments);
-      break;
-    }
-  }
+void MovingDownState::Update(Snake& snake) {}
+
+// Moving Left State
+
+SnakeState* MovingLeftState::HandleInput(Snake& snake, Input input) {
+  if      (input == Input::KbDown)  { return new MovingDownState(); }
+  else if (input == Input::KbUp)    { return new MovingUpState(); }
+  else if (snake.IsCollided())      { return new StandingState(); }
+  else                              { return new MovingLeftState(); }
 }
+
+void MovingLeftState::Update(Snake& snake) {}
+
+// Moving Right State
+
+SnakeState* MovingRightState::HandleInput(Snake& snake, Input input) {
+  if      (input == Input::KbDown)  { return new MovingDownState(); }
+  else if (input == Input::KbUp)    { return new MovingUpState(); }
+  else if (snake.IsCollided())      { return new StandingState(); }
+  else                              { return new MovingRightState(); }
+}
+
+void MovingRightState::Update(Snake& snake) {}
+
+// Moving Up State
+
+SnakeState* MovingUpState::HandleInput(Snake& snake, Input input) {
+  if      (input == Input::KbLeft)  { return new MovingLeftState(); }
+  else if (input == Input::KbRight) { return new MovingRightState(); }
+  else if (snake.IsCollided())      { return new StandingState(); }
+  else                              { return new MovingUpState(); }
+}
+
+void MovingUpState::Update(Snake& snake) {}
+
+// Standing State
+
+SnakeState* StandingState::HandleInput(Snake& snake, Input input) {
+  if      (input == Input::KbDown)  { return new MovingDownState(); }
+  else if (input == Input::KbLeft)  { return new MovingLeftState(); }
+  else if (input == Input::KbRight) { return new MovingRightState(); }
+  else if (input == Input::KbUp)    { return new MovingUpState(); }
+  else                              { return new StandingState(); }
+}
+
+void StandingState::Update(Snake& snake) {}
