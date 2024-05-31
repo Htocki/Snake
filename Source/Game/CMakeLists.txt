@@ -12,6 +12,7 @@ target_link_libraries("game"
   PUBLIC
     sfml-system
     sfml-window
+    input
     snake
     textbox
     window

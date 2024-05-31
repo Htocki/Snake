@@ -27,6 +27,7 @@ target_link_libraries("executable"
 add_subdirectory(Apple)
 add_subdirectory(Field)
 add_subdirectory(Game)
+add_subdirectory(Input)
 add_subdirectory(Snake)
 add_subdirectory(Textbox)
 add_subdirectory(Window)
