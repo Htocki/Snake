@@ -1,8 +1,8 @@
 add_library("snake"
   Snake.cpp
   Snake.hpp
-  #SnakeState.cpp
-  #SnakeState.hpp
+  SnakeState.cpp
+  SnakeState.hpp
 )
 
 target_include_directories("snake"
