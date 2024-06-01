@@ -40,14 +40,14 @@ target_link_libraries("executable"
     game
 )
 
-add_subdirectory(Modules/Apple)
-add_subdirectory(Modules/Field)
 add_subdirectory(Modules/Game)
 add_subdirectory(Modules/Input)
-add_subdirectory(Modules/Snake)
+add_subdirectory(Modules/Model/Apple)
+add_subdirectory(Modules/Model/Field)
+add_subdirectory(Modules/Model/Snake)
+add_subdirectory(Modules/Model/World)
 add_subdirectory(Modules/Textbox)
 add_subdirectory(Modules/Window)
-add_subdirectory(Modules/World)
 
 add_subdirectory(Tests/Field)
 add_subdirectory(Tests/Snake)
