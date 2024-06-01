@@ -15,6 +15,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(sfml)
 
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest
+  GIT_TAG        v1.14.0
+)
+
+FetchContent_MakeAvailable(googletest)
+
 add_executable("executable"
   Main.cpp
 )
@@ -24,11 +32,16 @@ target_link_libraries("executable"
     game
 )
 
-add_subdirectory(Apple)
-add_subdirectory(Field)
-add_subdirectory(Game)
-add_subdirectory(Input)
-add_subdirectory(Snake)
-add_subdirectory(Textbox)
-add_subdirectory(Window)
-add_subdirectory(World)
+add_subdirectory(Modules/Apple)
+add_subdirectory(Modules/Field)
+add_subdirectory(Modules/Game)
+add_subdirectory(Modules/Input)
+add_subdirectory(Modules/Snake)
+add_subdirectory(Modules/Textbox)
+add_subdirectory(Modules/Window)
+add_subdirectory(Modules/World)
+
+enable_testing()
+
+add_subdirectory(Tests/Field)
+add_subdirectory(Tests/Snake)
