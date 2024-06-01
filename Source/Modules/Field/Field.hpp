@@ -17,8 +17,9 @@ using Size = sf::Vector2u;
 class Field {
 public:
   Field(const Size& size);
+  void         AddBorder();
   SegmentState GetElement(const Position& position) const;
-  Size         GetSize() const;
+  const Size&  GetSize() const;
   void         Resize(const Size& size);
   void         SetElement(const Position& position, SegmentState state);
 
