@@ -9,17 +9,17 @@ Field::Field(const Size& size)
 void Field::AddBorder() {
   // Добавление вертикальных границ.
   for (auto i { 0u }; i < m_size.x; ++i) {
-    SetElement(Position { i,            0 }, SegmentState::Barrier);
-    SetElement(Position { i, m_size.y - 1 }, SegmentState::Barrier);
+    SetState(Position { i,            0 }, SegmentState::Barrier);
+    SetState(Position { i, m_size.y - 1 }, SegmentState::Barrier);
   }
   // Добавление горизонтальных границ.
   for (auto i { 0u }; i < m_size.y; ++i) {
-    SetElement(Position { 0,            i }, SegmentState::Barrier);
-    SetElement(Position { m_size.x - 1, i }, SegmentState::Barrier);
+    SetState(Position { 0,            i }, SegmentState::Barrier);
+    SetState(Position { m_size.x - 1, i }, SegmentState::Barrier);
   }
 }
 
-SegmentState Field::GetElement(const Position& position) const {
+SegmentState Field::GetState(const Position& position) const {
   return m_matrix[position.x][position.y];
 }
 
@@ -41,6 +41,6 @@ void Field::Resize(const Size& size) {
   }
 }
 
-void Field::SetElement(const Position& position, SegmentState state) {
+void Field::SetState(const Position& position, SegmentState state) {
   m_matrix[position.x][position.y] = state;
 }

@@ -10,6 +10,6 @@ target_include_directories("apple"
 
 target_link_libraries("apple"
   PUBLIC
-    sfml-graphics
     sfml-system
+    field
 )

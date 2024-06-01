@@ -18,10 +18,10 @@ class Field {
 public:
   Field(const Size& size);
   void         AddBorder();
-  SegmentState GetElement(const Position& position) const;
+  SegmentState GetState(const Position& position) const;
   const Size&  GetSize() const;
   void         Resize(const Size& size);
-  void         SetElement(const Position& position, SegmentState state);
+  void         SetState(const Position& position, SegmentState state);
 
 private:
   Matrix m_matrix;

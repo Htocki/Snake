@@ -1,19 +1,17 @@
 #pragma once
 
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
+
+#include "Field.hpp"
+
+using Position = sf::Vector2u;
 
 class Apple {
 public:
-  Apple(const sf::Vector2u& windowSize, int blockSize);
-  void Respawn();
-  const sf::Vector2i& GetPosition() const;
-  void Render(sf::RenderWindow& window) const;
+  Apple(const Field& field);
+  const Position& GetPosition() const;
+  void            Respawn(const Field& field);
 
 private:
-     sf::Vector2u m_windowSize;
-              int m_blockSize;
-  sf::CircleShape m_apple;
-     sf::Vector2i m_gridPosition;
+  Position m_position;
 };
