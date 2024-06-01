@@ -5,7 +5,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Apple.hpp"
-#include "Field.hpp"
 #include "Snake.hpp"
 
 class World {
@@ -21,6 +20,5 @@ public:
 private:
   sf::Vector2u m_windowSize;
            int m_blockSize;
-         Field m_field;
          Apple m_apple;
 };

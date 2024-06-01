@@ -1,20 +1,28 @@
 #pragma once
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <vector>
+
 #include <SFML/System/Vector2.hpp>
 
-using Segments = std::vector<std::vector<sf::RectangleShape>>;
+enum class SegmentState {
+  Barrier,
+  Empty,
+  Snake
+};
+
+using Matrix = std::vector<std::vector<SegmentState>>;
+using Position = sf::Vector2u;
+using Size = sf::Vector2u;
 
 class Field {
 public:
-  Field(sf::Vector2u size, int blockSize);
-  ~Field();
-  
-  bool IsBorder(sf::Vector2i position) const;
-
-  void Render(sf::RenderWindow& window) const;
+  Field(const Size& size);
+  SegmentState GetElement(const Position& position) const;
+  Size         GetSize() const;
+  void         Resize(const Size& size);
+  void         SetElement(const Position& position, SegmentState state);
 
 private:
-  Segments m_segments;
+  Matrix m_matrix;
+  Size   m_size;
 };

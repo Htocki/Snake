@@ -10,6 +10,5 @@ target_include_directories("field"
 
 target_link_libraries("field"
   PUBLIC
-    sfml-graphics
     sfml-system
 )

@@ -7,8 +7,8 @@
 
 Game::Game()
   : m_window { "", sf::Vector2u { 800, 600 }}
-  , m_snake { sf::Vector2u { 5, 5 }}
   , m_world { sf::Vector2u { 800, 600 }}
+  , m_snake { sf::Vector2u { 5, 5 }}
   , m_textbox { 5, 14, 350.f, sf::Vector2f { 30.f, 30.f }}
 {
   m_textbox.Add("Hello");
