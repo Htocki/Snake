@@ -1,5 +1,9 @@
 #include "SnakeState.hpp"
 
+#include <iostream>
+
+using Position = sf::Vector2u;
+
 // Moving Down State
 
 SnakeState* MovingDownState::HandleInput(Snake& snake, Input input) {
@@ -9,7 +13,10 @@ SnakeState* MovingDownState::HandleInput(Snake& snake, Input input) {
   else                              { return new MovingDownState(); }
 }
 
-void MovingDownState::Update(Snake& snake) {}
+void MovingDownState::Update(Snake& snake) {
+  std::cout << "Down: Position: x = " << snake.GetPosition().x << " y = " << snake.GetPosition().y << std::endl;
+  snake.MoveDown();  
+}
 
 // Moving Left State
 
@@ -20,7 +27,10 @@ SnakeState* MovingLeftState::HandleInput(Snake& snake, Input input) {
   else                              { return new MovingLeftState(); }
 }
 
-void MovingLeftState::Update(Snake& snake) {}
+void MovingLeftState::Update(Snake& snake) {
+  std::cout << "Left: Position: x = " << snake.GetPosition().x << " y = " << snake.GetPosition().y << std::endl;
+  snake.MoveLeft();
+}
 
 // Moving Right State
 
@@ -31,7 +41,10 @@ SnakeState* MovingRightState::HandleInput(Snake& snake, Input input) {
   else                              { return new MovingRightState(); }
 }
 
-void MovingRightState::Update(Snake& snake) {}
+void MovingRightState::Update(Snake& snake) {
+  std::cout << "Right: Position: x = " << snake.GetPosition().x << " y = " << snake.GetPosition().y << std::endl;
+  snake.MoveRight();
+}
 
 // Moving Up State
 
@@ -42,7 +55,10 @@ SnakeState* MovingUpState::HandleInput(Snake& snake, Input input) {
   else                              { return new MovingUpState(); }
 }
 
-void MovingUpState::Update(Snake& snake) {}
+void MovingUpState::Update(Snake& snake) {
+  std::cout << "Up: Position: x = " << snake.GetPosition().x << " y = " << snake.GetPosition().y << std::endl;
+  snake.MoveUp();
+}
 
 // Standing State
 
@@ -54,4 +70,6 @@ SnakeState* StandingState::HandleInput(Snake& snake, Input input) {
   else                              { return new StandingState(); }
 }
 
-void StandingState::Update(Snake& snake) {}
+void StandingState::Update(Snake& snake) {
+  std::cout << "Standing: Position: x = " << snake.GetPosition().x << " y = " << snake.GetPosition().y << std::endl;
+}
