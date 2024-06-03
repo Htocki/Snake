@@ -1,20 +1,26 @@
 #pragma once
 
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include "Apple.hpp"
+#include "Data.hpp"
+#include "Input.hpp"
 #include "Snake.hpp"
 
+using Size = sf::Vector2u;
+
 class World {
+  void UpdateData();
+
 public:
-  World(sf::Vector2u windowSize);
-  ~World();
-  
-  void Update(Snake& player);
-  void Render(sf::RenderWindow& window);
+  World(const Size& size);
+  const Data& GetData() const;
+  void        HandleInput(Input input);
+  void        Update();
 
 private:
-  sf::Vector2u m_windowSize;
+  Field m_field;
+  Apple m_apple;
+  Snake m_snake;
+  Data  m_data;
 };

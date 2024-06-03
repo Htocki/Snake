@@ -1,8 +1,8 @@
-set(LIBRARY_NAME game)
+set(LIBRARY_NAME data)
 
 add_library(${LIBRARY_NAME}
-  Game.cpp
-  Game.hpp
+  Data.cpp
+  Data.hpp
 )
 
 target_include_directories(${LIBRARY_NAME}
@@ -13,10 +13,4 @@ target_include_directories(${LIBRARY_NAME}
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
     sfml-system
-    sfml-window
-    input
-    snake
-    textbox
-    window
-    world
 )

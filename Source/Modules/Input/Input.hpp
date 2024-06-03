@@ -2,6 +2,7 @@
 
 enum class Input {
   KbDown,
+  KbEscape,
   KbLeft,
   KbRight,
   KbUp,

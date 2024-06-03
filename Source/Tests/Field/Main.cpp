@@ -23,22 +23,9 @@ TEST(Field, SetElement) {
   Size size { 10, 7 };
   Field field { size };
   Position position { 8, 5 };
-  field.SetState(position, SegmentState::Barrier);
+  field.SetState(position, SegmentState::Border);
   // Проверка состояния ячейки.
-  EXPECT_EQ(field.GetState(position), SegmentState::Barrier);
-}
-
-#include <iostream>
-
-TEST(Field, AddBorder) {
-  Size size { 10, 7 };
-  Field field { size };
-  field.AddBorder();
-  // Выборочная проверка сегментов границы.
-  EXPECT_EQ(field.GetState(Position { 2, 0 }), SegmentState::Barrier);
-  EXPECT_EQ(field.GetState(Position { 3, 6 }), SegmentState::Barrier);
-  EXPECT_EQ(field.GetState(Position { 0, 5 }), SegmentState::Barrier);
-  EXPECT_EQ(field.GetState(Position { 9, 4 }), SegmentState::Barrier);
+  EXPECT_EQ(field.GetState(position), SegmentState::Border);
 }
 
 int main(int argc, char **argv) {

@@ -1,14 +1,23 @@
 #include "World.hpp"
 
-#include <SFML/Graphics/Color.hpp>
+void World::UpdateData() {}
 
-World::World(sf::Vector2u windowSize) 
-  : m_windowSize { windowSize }
+World::World(const Size& size) 
+  : m_field { size }
+  , m_apple { m_field }
+  , m_snake { m_field }
+  , m_data {}
 {}
 
-World::~World() {}
+const Data& World::GetData() const { return m_data; }
 
-void World::Update(Snake& snake) {}
+void World::HandleInput(Input input) {
+  m_snake.HandleInput(input);
+}
 
-void World::Render(sf::RenderWindow& window) {
+void World::Update() {
+  //if (змейка.съелаЯблоко())     { m_apple.Respawn(); }
+  //if (змейка.удариласьОСтену()) { m_apple.Respawn(); }
+  m_snake.Update();
+  UpdateData();
 }

@@ -3,18 +3,20 @@
 #include <cstdlib>
 #include <ctime>
 
-Apple::Apple(const Field& field) {
-  Respawn(field);
-}
+#include <SFML/System/Vector2.hpp>
 
-void Apple::Respawn(const Field& field) {
+using Position = sf::Vector2u;
+
+Apple::Apple(Field& field) 
+  : m_field { field }
+{}
+
+void Apple::Respawn() {
+  Position position;
   std::srand(std::time(nullptr));
   do {
-    m_position.x = std::rand() % field.GetSize().x;
-    m_position.y = std::rand() % field.GetSize().y;
-  } while (field.GetState(m_position) != SegmentState::Empty);
-}
-
-const Position& Apple::GetPosition() const {
-  return m_position;
+    position.x = std::rand() % m_field.GetSize().x;
+    position.y = std::rand() % m_field.GetSize().y;
+  } while (m_field.GetState(position) != SegmentState::Empty);
+  m_field.SetState(position, SegmentState::Apple);
 }

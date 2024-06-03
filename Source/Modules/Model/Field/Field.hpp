@@ -5,7 +5,8 @@
 #include <SFML/System/Vector2.hpp>
 
 enum class SegmentState {
-  Barrier,
+  Apple,
+  Border,
   Empty,
   Snake
 };
@@ -15,12 +16,13 @@ using Position = sf::Vector2u;
 using Size = sf::Vector2u;
 
 class Field {
+  void AddBorder();
+
 public:
   Field(const Size& size);
-  void         AddBorder();
-  SegmentState GetState(const Position& position) const;
   const Size&  GetSize() const;
-  void         Resize(const Size& size);
+  SegmentState GetState(const Position& position) const;
+  void         SetSize(const Size& size);
   void         SetState(const Position& position, SegmentState state);
 
 private:

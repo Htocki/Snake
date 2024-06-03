@@ -3,7 +3,6 @@
 #include <SFML/System/Clock.hpp>
 
 #include "Input.hpp"
-#include "Snake.hpp"
 #include "Textbox.hpp"
 #include "Window.hpp"
 #include "World.hpp"
@@ -27,6 +26,5 @@ private:
   sf::Clock m_clock;
    sf::Time m_elapsed;
       World m_world;
-      Snake m_snake;
     Textbox m_textbox;
 };
